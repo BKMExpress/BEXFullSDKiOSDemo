@@ -1,0 +1,15 @@
+{
+  "originHash" : "a77077540f79d0f92bdf5bd30bc1ecaa3086bdee5babfdee92a7abe27c153d58",
+  "pins" : [
+    {
+      "identity" : "ios-full-sdk",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/BKMExpress/iOS-Full-SDK.git",
+      "state" : {
+        "branch" : "main",
+        "revision" : "cad16f748334fff987bde20b53508ea3cef97021"
+      }
+    }
+  ],
+  "version" : 3
+}
