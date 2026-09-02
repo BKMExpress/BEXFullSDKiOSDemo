@@ -18,14 +18,14 @@ enum UISDKTests {
     
     fileprivate var name: String {
       switch self {
-      case .default: "Varsayılan"
+        case .default: "Varsayılan"
       }
     }
     
     fileprivate var bkmExpressTheme: BKMExpress.Theme {
       switch self {
-      case .default:
-        return .init()
+        case .default:
+          return .init()
       }
     }
   }
@@ -36,8 +36,8 @@ enum UISDKTests {
     
     fileprivate var name: String {
       switch self {
-      case .sheet: "Bottom Sheet"
-      case .fullScreen: "Tam Ekran"
+        case .sheet: "Bottom Sheet"
+        case .fullScreen: "Tam Ekran"
       }
     }
   }
@@ -48,15 +48,15 @@ enum UISDKTests {
     
     var name: String {
       switch self {
-      case .payment: "Ödeme"
-      case .pairing: "Kart Eşleştirme"
+        case .payment: "Ödeme"
+        case .pairing: "Kart Eşleştirme"
       }
     }
     
     var buttonTitle: String {
       switch self {
-      case .payment: "Ödeme Yap"
-      case .pairing: "Kart Eşleştir"
+        case .payment: "Ödeme Yap"
+        case .pairing: "Kart Eşleştir"
       }
     }
   }
@@ -68,9 +68,9 @@ enum UISDKTests {
     
     var bexPaymentSecurity: BKMExpress.PaymentSecurity {
       switch self {
-      case .tds: .tds
-      case .otp: .otp
-      case .none: .none
+        case .tds: .tds
+        case .otp: .otp
+        case .none: .none
       }
     }
   }
@@ -82,15 +82,15 @@ enum UISDKTests {
     
     var bexTransactionType: BKMExpress.TransactionType {
       switch self {
-      case .sale: .sale
-      case .preAuth: .preAuth
-      case .recurring: .recurring
+        case .sale: .sale
+        case .preAuth: .preAuth
+        case .recurring: .recurring
       }
     }
   }
   
   struct Screen: View {
-    // MARK: State
+      // MARK: State
     @State var theme: Theme = .default
     @AppStorage("merchantID") var merchantID = ""
     @AppStorage("merchantUserID") var merchantUserID = ""
@@ -101,7 +101,7 @@ enum UISDKTests {
     @AppStorage("orderID") var orderId = ""
     @State var presentationKind: PresentationKind = .fullScreen
     @AppStorage("transactionKind") var transactionKind: TransactionKind = .pairing
-    @State var bkmExpressToken: BKMExpress.InitializationToken?
+    @State var presentation: BKMExpressPresentation?
     @AppStorage("currency") var currency = "TRY"
     @AppStorage("installmentCount") var installmentCount: Int = 1
     @AppStorage("paymentSecurity") var security: PaymentSecurityKind = .none
@@ -127,7 +127,7 @@ enum UISDKTests {
       return nf
     }()
     
-    // MARK: UI
+      // MARK: UI
     var body: some View {
       VStack {
         Text("Uygulama şu an '\(mode.name)' modundadır.")
@@ -344,50 +344,7 @@ enum UISDKTests {
       .navigationTitle("Full SDK Demo")
       .alert(state: $alert)
       .bkmExpressSheet(
-        kind: {
-          switch transactionKind {
-          case .payment:
-            if let amount {
-              let decimal = Decimal(amount)
-              return .payment(
-                .init(
-                  amount: decimal,
-                  security: security.bexPaymentSecurity,
-                  installmentCount: .init(installmentCount)!,
-                  transactionType: transactionType.bexTransactionType,
-                  orderID: orderId,
-                  successUrl: successUrl,
-                  failUrl: failUrl
-                )
-              ) { result in
-                switch result {
-                case .completed:
-                  alert = .init(message: "Ödeme tamamlandı.")
-                case .cancelled:
-                  alert = .init(message: "iptal")
-                case let .failed(failure):
-                  alert = .init(message: "Hata: \(failure.localizedDescription)")
-                }
-              }
-            } else {
-              fallthrough
-            }
-          case .pairing:
-            return .cardSelection { result in
-              let alertMessage = switch result {
-              case let .selected(card): "Kart eslestirme tamamlandı. Kart bilgileri: \(card.maskedCardNumber) \(card.id)"
-              case let .failed(error): "Hata oldu: \(error)"
-              case .cancelled: "Iptal Edildi"
-              }
-              
-              self.alert = .init(id: .init(), message: alertMessage)
-              if case let .selected(card) = result {
-                selectedCardInfo = (card.alias, card.maskedCardNumber)
-              }
-            }
-          }
-        }(),
-        token: $bkmExpressToken,
+        presentation: $presentation,
         theme: { $0 = theme.bkmExpressTheme },
         style: presentationKind.bkmExpressPresentationStyle
       )
@@ -409,7 +366,7 @@ enum UISDKTests {
       }
     }
     
-    // MARK: Utilities
+      // MARK: Utilities
     private func initSDK() async {
       guard let number = try? BKMExpress.GSMNO(phoneNumber)
       else {
@@ -425,18 +382,81 @@ enum UISDKTests {
       defer { initInProgress = false }
       
       do throws(BKMExpress.Failure) {
-        self.bkmExpressToken = try await BKMExpress.initialize(
-          context: .init(
-            authToken: token,
-            merchantID: merchantID,
-            merchantUserID: merchantUserID,
-            gsmNo: number,
-            currencyCode: currency,
-            transactionType: transactionType.bexTransactionType,
-            installmentCount: .init(installmentCount)!,
-            mode: mode.sdkMode
-          )
-        )
+        switch transactionKind {
+          case .payment:
+            guard let amount else {
+              alert = .init(message: "Başlatılamadı. Lütfen para miktarını girin")
+              return
+            }
+            
+            let paymentData = BKMExpress.PaymentData(
+              amount: Decimal(amount),
+              orderID: orderId,
+              transactionDate: Date(),
+              security: security.bexPaymentSecurity,
+              currencyCode: currency,
+              installmentCount: .init(installmentCount)!,
+              transactionType: transactionType.bexTransactionType,
+              successUrl: successUrl,
+              failUrl: failUrl
+            )
+            
+            let initializationToken = try await BKMExpress.initialize(
+              context: .init(
+                authToken: token,
+                merchantID: merchantID,
+                transactionID: UUID(),
+                gsmNo: number,
+                merchantUserID: merchantUserID,
+                paymentData: paymentData,
+                mode: mode.sdkMode
+              )
+            )
+            
+            self.presentation = .payment(
+              token: initializationToken,
+              data: paymentData,
+              completion: { [self] result in
+                switch result {
+                  case .completed:
+                    alert = .init(message: "Ödeme tamamlandı.")
+                  case .cancelled:
+                    alert = .init(message: "iptal")
+                  case let .failed(failure):
+                    alert = .init(message: "Hata: \(failure.localizedDescription)")
+                }
+              }
+            )
+            
+          case .pairing:
+            let initializationToken = try await BKMExpress.initialize(
+              context: .init(
+                authToken: token,
+                merchantID: merchantID,
+                transactionID: UUID(),
+                gsmNo: number,
+                merchantUserID: merchantUserID,
+                paymentData: .init(currencyCode: currency),
+                mode: mode.sdkMode
+              )
+            )
+            
+            self.presentation = .cardSelection(
+              token: initializationToken,
+              completion: { [self] result in
+                let alertMessage = switch result {
+                  case let .selected(card): "Kart eslestirme tamamlandı. Kart bilgileri: \(card.maskedCardNumber) \(card.id)"
+                  case let .failed(error): "Hata oldu: \(error)"
+                  case .cancelled: "Iptal Edildi"
+                }
+                
+                self.alert = .init(id: .init(), message: alertMessage)
+                if case let .selected(card) = result {
+                  selectedCardInfo = (card.alias, card.maskedCardNumber)
+                }
+              }
+            )
+        }
       } catch {
         alert = .init(id: .init(), message: "Baslatilamadi. \(error.code ?? -1)  \n\n\(error.localizedDescription)")
       }
@@ -444,12 +464,12 @@ enum UISDKTests {
   }
 }
 
-// MARK: Extensions
+  // MARK: Extensions
 private extension UISDKTests.PresentationKind {
   var bkmExpressPresentationStyle: BKMExpress.PresentationStyle {
     switch self {
-    case .sheet: .sheet
-    case .fullScreen: .fullScreen
+      case .sheet: .sheet
+      case .fullScreen: .fullScreen
     }
   }
 }
@@ -457,41 +477,77 @@ private extension UISDKTests.PresentationKind {
 private extension Mode {
   var sdkMode: BKMExpress._Mode {
     switch self {
-    case .test: .test
-    case .preprod: .preprod
-    case .production: .production
+        case .test: .test
+        case .preprod: .preprod
+        case .production: .production
+        }
+    }
+}
+
+enum BKMExpressPresentation {
+  case payment(
+  token: BKMExpress.InitializationToken,
+  data: BKMExpress.PaymentData,
+  completion: (BKMExpress.PaymentResult) -> Void
+  )
+  case cardSelection(
+  token: BKMExpress.InitializationToken,
+  completion: (BKMExpress.CardSelectionResult) -> Void
+  )
+  
+  var token: BKMExpress.InitializationToken {
+    switch self {
+      case let .payment(token, _, _): token
+      case let .cardSelection(token, _): token
     }
   }
 }
 
-enum BKMExpressKind {
-  case payment(BKMExpress.PaymentData, completion: (BKMExpress.PaymentResult) -> Void)
-  case cardSelection(completion: (BKMExpress.CardSelectionResult) -> Void)
-}
-
 extension View {
   func bkmExpressSheet(
-    kind: BKMExpressKind,
-    token: Binding<BKMExpress.InitializationToken?>,
-    theme: (inout BKMExpress.Theme) -> Void,
-    style: BKMExpress.PresentationStyle,
+  presentation: Binding<BKMExpressPresentation?>,
+  theme: @escaping (inout BKMExpress.Theme) -> Void,
+  style: BKMExpress.PresentationStyle
   ) -> some View {
-    switch kind {
-    case let .payment(paymentData, completion):
-      bkmExpressPaymentSheet(
-        token: token,
-        data: paymentData,
-        theme: theme,
-        style: style,
-        onFinished: completion
+    func tokenBinding() -> Binding<BKMExpress.InitializationToken?> {
+      Binding(
+      get: { presentation.wrappedValue?.token },
+      set: { newValue in
+        if newValue == nil {
+          presentation.wrappedValue = nil
+          }
+        }
       )
-    case let .cardSelection(completion):
-      bkmExpressCardSelectionSheet(
-        token: token,
-        theme: theme,
-        style: style,
-        onFinished: completion
-      )
+      }
+    
+    return Group {
+      switch presentation.wrappedValue {
+        case let .payment(_, data, completion):
+          self.bkmExpressPaymentSheet(
+            token: tokenBinding(),
+            data: data,
+            theme: theme,
+            style: style,
+            onFinished: { result in
+              completion(result)
+              presentation.wrappedValue = nil
+            }
+          )
+          
+        case let .cardSelection(_, completion):
+          self.bkmExpressCardSelectionSheet(
+            token: tokenBinding(),
+            theme: theme,
+            style: style,
+            onFinished: { result in
+              completion(result)
+              presentation.wrappedValue = nil
+            }
+          )
+          
+        case nil:
+          self
+      }
     }
   }
 }
@@ -500,6 +556,6 @@ extension View {
 #Preview {
   NavigationStack {
     UISDKTests.Screen()
-  }
+    }
 }
 #endif
