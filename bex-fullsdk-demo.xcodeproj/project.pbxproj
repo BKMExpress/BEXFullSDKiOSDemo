@@ -7,10 +7,12 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		2F463212303EF6D300299A5B /* BKMExpressSDK in Frameworks */ = {isa = PBXBuildFile; productRef = 2F463211303EF6D300299A5B /* BKMExpressSDK */; };
+		2F8174B83080F0B60046CD08 /* BKMExpressSDK in Frameworks */ = {isa = PBXBuildFile; productRef = 2F8174B73080F0B60046CD08 /* BKMExpressSDK */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		2FB65D66305BD40F009CA2AF /* BKMExpressSDK.xcframework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcframework; name = BKMExpressSDK.xcframework; path = "../../../../bitbucket-full-sdk-ios/bex-full-sdk-ios/bkm-express-sdk/BKMExpressSDK.xcframework"; sourceTree = "<group>"; };
+		2FF7A38D3074F99400B04D1B /* BKMExpressSDK.xcframework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcframework; name = BKMExpressSDK.xcframework; path = ../../../../Desktop/BKMExpressSDK.xcframework; sourceTree = "<group>"; };
 		7203BD56303DBCB400A09FDE /* bex-fullsdk-demo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "bex-fullsdk-demo.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -40,17 +42,27 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				2F463212303EF6D300299A5B /* BKMExpressSDK in Frameworks */,
+				2F8174B83080F0B60046CD08 /* BKMExpressSDK in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		2FB65D65305BD40F009CA2AF /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				2FF7A38D3074F99400B04D1B /* BKMExpressSDK.xcframework */,
+				2FB65D66305BD40F009CA2AF /* BKMExpressSDK.xcframework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 		7203BD4D303DBCB400A09FDE = {
 			isa = PBXGroup;
 			children = (
 				7203BD58303DBCB400A09FDE /* demo */,
+				2FB65D65305BD40F009CA2AF /* Frameworks */,
 				7203BD57303DBCB400A09FDE /* Products */,
 			);
 			sourceTree = "<group>";
@@ -83,7 +95,7 @@
 			);
 			name = "bex-fullsdk-demo";
 			packageProductDependencies = (
-				2F463211303EF6D300299A5B /* BKMExpressSDK */,
+				2F8174B73080F0B60046CD08 /* BKMExpressSDK */,
 			);
 			productName = "bex-fullsdk-demo";
 			productReference = 7203BD56303DBCB400A09FDE /* bex-fullsdk-demo.app */;
@@ -114,7 +126,7 @@
 			mainGroup = 7203BD4D303DBCB400A09FDE;
 			minimizedProjectReferenceProxies = 1;
 			packageReferences = (
-				2F463210303EF6D300299A5B /* XCRemoteSwiftPackageReference "iOS-Full-SDK" */,
+				2F8174B63080F0B60046CD08 /* XCRemoteSwiftPackageReference "iOS-Full-SDK" */,
 			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = 7203BD57303DBCB400A09FDE /* Products */;
@@ -287,7 +299,7 @@
 				"INFOPLIST_KEY_UIStatusBarStyle[sdk=iphonesimulator*]" = UIStatusBarStyleDefault;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				IPHONEOS_DEPLOYMENT_TARGET = 26.5;
+				IPHONEOS_DEPLOYMENT_TARGET = 26.1;
 				LD_RUNPATH_SEARCH_PATHS = "@executable_path/Frameworks";
 				"LD_RUNPATH_SEARCH_PATHS[sdk=macosx*]" = "@executable_path/../Frameworks";
 				MACOSX_DEPLOYMENT_TARGET = 26.4;
@@ -297,13 +309,14 @@
 				REGISTER_APP_GROUPS = YES;
 				SDKROOT = auto;
 				STRING_CATALOG_GENERATE_SYMBOLS = YES;
-				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator macosx xros xrsimulator";
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
 				SWIFT_APPROACHABLE_CONCURRENCY = YES;
 				SWIFT_DEFAULT_ACTOR_ISOLATION = MainActor;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2,7";
+				TARGETED_DEVICE_FAMILY = "1,2";
 				XROS_DEPLOYMENT_TARGET = 26.5;
 			};
 			name = Debug;
@@ -332,7 +345,7 @@
 				"INFOPLIST_KEY_UIStatusBarStyle[sdk=iphonesimulator*]" = UIStatusBarStyleDefault;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				IPHONEOS_DEPLOYMENT_TARGET = 26.5;
+				IPHONEOS_DEPLOYMENT_TARGET = 26.1;
 				LD_RUNPATH_SEARCH_PATHS = "@executable_path/Frameworks";
 				"LD_RUNPATH_SEARCH_PATHS[sdk=macosx*]" = "@executable_path/../Frameworks";
 				MACOSX_DEPLOYMENT_TARGET = 26.4;
@@ -342,13 +355,14 @@
 				REGISTER_APP_GROUPS = YES;
 				SDKROOT = auto;
 				STRING_CATALOG_GENERATE_SYMBOLS = YES;
-				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator macosx xros xrsimulator";
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
 				SWIFT_APPROACHABLE_CONCURRENCY = YES;
 				SWIFT_DEFAULT_ACTOR_ISOLATION = MainActor;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2,7";
+				TARGETED_DEVICE_FAMILY = "1,2";
 				XROS_DEPLOYMENT_TARGET = 26.5;
 			};
 			name = Release;
@@ -377,20 +391,20 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
-		2F463210303EF6D300299A5B /* XCRemoteSwiftPackageReference "iOS-Full-SDK" */ = {
+		2F8174B63080F0B60046CD08 /* XCRemoteSwiftPackageReference "iOS-Full-SDK" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/BKMExpress/iOS-Full-SDK.git";
 			requirement = {
-				branch = main;
+				branch = 1.1.6;
 				kind = branch;
 			};
 		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
-		2F463211303EF6D300299A5B /* BKMExpressSDK */ = {
+		2F8174B73080F0B60046CD08 /* BKMExpressSDK */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = 2F463210303EF6D300299A5B /* XCRemoteSwiftPackageReference "iOS-Full-SDK" */;
+			package = 2F8174B63080F0B60046CD08 /* XCRemoteSwiftPackageReference "iOS-Full-SDK" */;
 			productName = BKMExpressSDK;
 		};
 /* End XCSwiftPackageProductDependency section */
