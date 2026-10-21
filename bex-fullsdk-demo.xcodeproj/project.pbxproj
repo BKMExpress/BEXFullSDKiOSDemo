@@ -7,12 +7,10 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		2F8174B83080F0B60046CD08 /* BKMExpressSDK in Frameworks */ = {isa = PBXBuildFile; productRef = 2F8174B73080F0B60046CD08 /* BKMExpressSDK */; };
+		2FA61FC730888B1200FD8662 /* BKMExpressSDK in Frameworks */ = {isa = PBXBuildFile; productRef = 2FA61FC630888B1200FD8662 /* BKMExpressSDK */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		2FB65D66305BD40F009CA2AF /* BKMExpressSDK.xcframework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcframework; name = BKMExpressSDK.xcframework; path = "../../../../bitbucket-full-sdk-ios/bex-full-sdk-ios/bkm-express-sdk/BKMExpressSDK.xcframework"; sourceTree = "<group>"; };
-		2FF7A38D3074F99400B04D1B /* BKMExpressSDK.xcframework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcframework; name = BKMExpressSDK.xcframework; path = ../../../../Desktop/BKMExpressSDK.xcframework; sourceTree = "<group>"; };
 		7203BD56303DBCB400A09FDE /* bex-fullsdk-demo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "bex-fullsdk-demo.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -42,27 +40,17 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				2F8174B83080F0B60046CD08 /* BKMExpressSDK in Frameworks */,
+				2FA61FC730888B1200FD8662 /* BKMExpressSDK in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		2FB65D65305BD40F009CA2AF /* Frameworks */ = {
-			isa = PBXGroup;
-			children = (
-				2FF7A38D3074F99400B04D1B /* BKMExpressSDK.xcframework */,
-				2FB65D66305BD40F009CA2AF /* BKMExpressSDK.xcframework */,
-			);
-			name = Frameworks;
-			sourceTree = "<group>";
-		};
 		7203BD4D303DBCB400A09FDE = {
 			isa = PBXGroup;
 			children = (
 				7203BD58303DBCB400A09FDE /* demo */,
-				2FB65D65305BD40F009CA2AF /* Frameworks */,
 				7203BD57303DBCB400A09FDE /* Products */,
 			);
 			sourceTree = "<group>";
@@ -95,7 +83,7 @@
 			);
 			name = "bex-fullsdk-demo";
 			packageProductDependencies = (
-				2F8174B73080F0B60046CD08 /* BKMExpressSDK */,
+				2FA61FC630888B1200FD8662 /* BKMExpressSDK */,
 			);
 			productName = "bex-fullsdk-demo";
 			productReference = 7203BD56303DBCB400A09FDE /* bex-fullsdk-demo.app */;
@@ -402,7 +390,7 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
-		2F8174B73080F0B60046CD08 /* BKMExpressSDK */ = {
+		2FA61FC630888B1200FD8662 /* BKMExpressSDK */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = 2F8174B63080F0B60046CD08 /* XCRemoteSwiftPackageReference "iOS-Full-SDK" */;
 			productName = BKMExpressSDK;
