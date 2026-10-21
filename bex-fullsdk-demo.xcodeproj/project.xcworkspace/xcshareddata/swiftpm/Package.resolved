@@ -6,8 +6,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/BKMExpress/iOS-Full-SDK.git",
       "state" : {
-        "branch" : "main",
-        "revision" : "1631167735f63122dd6d0ee167fca2ab3fdf4000"
+        "branch" : "1.1.6",
+        "revision" : "c1dfe76e0e648d8ece3695c438c81f809e2d443c"
       }
     }
   ],
